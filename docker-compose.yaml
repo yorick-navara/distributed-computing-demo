@@ -1,0 +1,24 @@
+services:
+  demo-queue:
+    container_name: demo-queue
+    image: rabbitmq
+    ports: 
+      - 5672:5672
+      - 15672:15672
+  demo-leader:
+    container_name: demo-leader
+    build: src/leader/
+    depends_on:
+      - demo-queue
+    environment:
+     - PYTHONUNBUFFERED=1  # for logging to show
+  demo-worker:
+    container_name: demo-worker
+    build: src/worker/
+    depends_on:
+      - demo-queue
+    environment:
+     - PYTHONUNBUFFERED=1  # for logging to show
+    #   - demo-leader
+    # deploy:
+    #   replicas: 1

@@ -1,0 +1,5 @@
+- serialize/deserialize message
+- Setup mysql in container: https://hevodata.com/learn/docker-mysql/
+- Add process table to mysql: https://eloquentcode.com/create-a-mysql-docker-container-with-a-predefined-database
+- Create common DAL
+- Read and write to SQL process table
