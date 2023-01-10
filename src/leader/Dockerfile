@@ -2,10 +2,13 @@ FROM python:3.10
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt requirements.txt
+COPY leader/requirements.txt requirements.txt
+COPY common/requirements.txt common-requirements.txt
 
 RUN pip3 install -r requirements.txt
+RUN pip3 install -r common-requirements.txt
 
-COPY main.py main.py
+COPY leader/main.py main.py
+ADD common common/
 
 CMD ["python3", "main.py"]

@@ -7,14 +7,18 @@ services:
       - 15672:15672
   demo-leader:
     container_name: demo-leader
-    build: src/leader/
+    build: 
+      context: ./src
+      dockerfile: leader/Dockerfile
     depends_on:
       - demo-queue
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
   demo-worker:
     container_name: demo-worker
-    build: src/worker/
+    build: 
+      context: ./src
+      dockerfile: worker/Dockerfile
     depends_on:
       - demo-queue
     environment:

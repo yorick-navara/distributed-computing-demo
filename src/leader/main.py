@@ -1,16 +1,20 @@
 import time
 import pika
+from uuid import uuid4
+from datetime import datetime
+
+from common.message import Message
 
 
 QUEUE_NAME = 'task_queue'
 CONNECTION = 'demo-queue' # 'amqp://guest:guest@demo-queuee:5672/'  # 'localhost'
 
 def do_work():
-    print("Converting topology from State Estimation to PowerGridModel format...")
+    print("Doing preliminary work...")
     time.sleep(2)
-    print("Exporting topology to database...")
-    print("Retrieving selections of topology from database...")
-    return list(range(10))
+    print("Exporting result of preliminary work to database...")
+    print("Retrieving selections of work from database...")
+    return list(range(5))
 
 
 def main():
@@ -22,15 +26,27 @@ def main():
     print("Started leader.")
     selections = do_work()
     
-    print(f'Selection in network: {selections}')
+    run_id = uuid4()
+    start_date = datetime.strptime('2022-11-01 00:00', '%Y-%m-%d %H:%M')
+    end_date = datetime.strptime('2022-12-01 00:00', '%Y-%m-%d %H:%M')
+    
+    print(f'Selection of work: {selections}')
     for selection in selections:
         print(f'Defining message for selection {selection}')
-        send_message(str(selection))
+        task_id = uuid4()
+        msg = Message(
+            run_id=run_id,
+            task_id=task_id,
+            selections=selection,
+            start_date=start_date,
+            end_date=end_date)
+        
+        send_message(msg)
         time.sleep(1)
     print("Leader finished.")
 
 
-def send_message(message):
+def send_message(message: Message):
     print(f'Sending message: {message}')
     connection = pika.BlockingConnection(pika.ConnectionParameters(CONNECTION))
     channel = connection.channel()
@@ -39,7 +55,7 @@ def send_message(message):
     
     channel.basic_publish(exchange='', # default exchange
                       routing_key='hello',
-                      body=message,
+                      body=message.to_json(),
                       properties=pika.BasicProperties(
                          delivery_mode = pika.spec.PERSISTENT_DELIVERY_MODE
                       ))
