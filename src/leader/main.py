@@ -3,7 +3,10 @@ import pika
 from uuid import uuid4
 from datetime import datetime
 
-from common.message import Message
+from common.models.message import Message
+from common.models.enums import ProcessStatus
+from common.models.run_process import RunProcess
+from common.dal.run_process_repository import RunProcessRepository
 
 
 QUEUE_NAME = 'task_queue'
@@ -34,14 +37,22 @@ def main():
     for selection in selections:
         print(f'Defining message for selection {selection}')
         task_id = uuid4()
-        msg = Message(
+        
+        run_process = RunProcess(
             run_id=run_id,
             task_id=task_id,
-            selections=selection,
-            start_date=start_date,
-            end_date=end_date)
+            task_status=ProcessStatus.NOT_STARTED
+        )
+        RunProcessRepository.insert_run_process(run_process)
         
-        send_message(msg)
+        # msg = Message(
+        #     run_id=run_id,
+        #     task_id=task_id,
+        #     selections=selection,
+        #     start_date=start_date,
+        #     end_date=end_date)
+        # send_message(msg)
+        
         time.sleep(1)
     print("Leader finished.")
 

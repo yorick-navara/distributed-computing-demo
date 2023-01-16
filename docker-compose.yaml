@@ -12,6 +12,7 @@ services:
       dockerfile: leader/Dockerfile
     depends_on:
       - demo-queue
+      - demo-db
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
   demo-worker:
@@ -26,3 +27,12 @@ services:
     #   - demo-leader
     # deploy:
     #   replicas: 1
+  demo-db:
+    container_name: demo-db
+    build: 
+      context: ./src
+      dockerfile: db/Dockerfile
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=pw

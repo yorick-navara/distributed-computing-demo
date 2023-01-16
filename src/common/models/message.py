@@ -1,7 +1,7 @@
 from uuid import UUID
 from dataclasses import dataclass, asdict
 from datetime import datetime
-from typing import List, Tuple
+from typing import List
 import json
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M"
