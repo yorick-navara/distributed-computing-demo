@@ -17,7 +17,7 @@ def do_work():
     time.sleep(2)
     print("Exporting result of preliminary work to database...")
     print("Retrieving selections of work from database...")
-    return list(range(5))
+    return [[0],[1],[2,3],[4]]
 
 
 def main():
@@ -45,15 +45,16 @@ def main():
         )
         RunProcessRepository.insert_run_process(run_process)
         
-        # msg = Message(
-        #     run_id=run_id,
-        #     task_id=task_id,
-        #     selections=selection,
-        #     start_date=start_date,
-        #     end_date=end_date)
-        # send_message(msg)
+        msg = Message(
+            run_id=run_id,
+            task_id=task_id,
+            selections=selection,
+            start_date=start_date,
+            end_date=end_date)
+        send_message(msg)
         
         time.sleep(1)
+
     print("Leader finished.")
 
 
@@ -65,16 +66,15 @@ def send_message(message: Message):
     channel.queue_declare(queue=QUEUE_NAME, durable=True)
     
     channel.basic_publish(exchange='', # default exchange
-                      routing_key='hello',
+                      routing_key=QUEUE_NAME,
                       body=message.to_json(),
                       properties=pika.BasicProperties(
                          delivery_mode = pika.spec.PERSISTENT_DELIVERY_MODE
                       ))
     print(f'Message sent: {message}')
-    
+    time.sleep(5)
     connection.close()
 
 
 if __name__ == '__main__':
-    
     main()

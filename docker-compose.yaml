@@ -10,9 +10,6 @@ services:
     build: 
       context: ./src
       dockerfile: leader/Dockerfile
-    depends_on:
-      - demo-queue
-      - demo-db
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
   demo-worker:
@@ -24,7 +21,6 @@ services:
       - demo-queue
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
-    #   - demo-leader
     # deploy:
     #   replicas: 1
   demo-db:

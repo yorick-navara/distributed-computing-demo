@@ -21,8 +21,8 @@ class RunProcessRepository:
   def update_run_process(run_process: RunProcess) -> None:
     update_query = (
       "UPDATE run_process "
-      "SET task_status = %(task_status)s"
-      "WHERE run_id = %(run_id)s AND task_id = %(task_id)s)"
+      "SET task_status = %(task_status)s "
+      "WHERE run_id = %(run_id)s AND task_id = %(task_id)s"
     )
     
     insert_data(update_query, run_process.to_dict())
@@ -30,7 +30,8 @@ class RunProcessRepository:
   @staticmethod
   def get_run_process(run_id: UUID, task_id:UUID) -> RunProcess:
     query = (
-      "SELECT run_id, task_id, task_status FROM run_process"
+      "SELECT run_id, task_id, task_status "
+      "FROM run_process "
       "WHERE run_id = %s AND task_id = %s"
     )
     

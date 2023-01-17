@@ -1,9 +1,14 @@
 import sys
 import os
 import time
+import subprocess
 import pika
 
-from common.message import Message
+
+from common.models.message import Message
+from common.models.run_process import RunProcess
+from common.models.enums import ProcessStatus
+from common.dal.run_process_repository import RunProcessRepository
 
 
 QUEUE_NAME = 'task_queue'
@@ -36,11 +41,22 @@ def handle_incoming_message(ch, method, properties, body:str):
     print(f'selections: {message.selections}')
     print(f'start_date {message.start_date}')
     print(f'end_date {message.end_date}')
-    
-    
-    do_work(message)
-    print("Worker: Acknowledging completion of message {body}...")
+
+    run_process = RunProcess(
+        run_id=message.run_id,
+        task_id=message.task_id,
+        task_status=ProcessStatus.STARTED)
+
+    RunProcessRepository.update_run_process(run_process)
+
+    print("Worker: Acknowledging delivery of message {body}...")
     ch.basic_ack(delivery_tag = method.delivery_tag)
+
+    do_work(message)
+
+    run_process.task_status = ProcessStatus.FINISHED
+    RunProcessRepository.update_run_process(run_process)
+
     print("Worker: Finished handling message.")
 
 
@@ -59,6 +75,7 @@ def receive_messages():
 
 def main():
     print("Starting worker...")
+    print(f"Worker name: {os.environ['HOSTNAME']}")
     print("Waiting...")
     time.sleep(30)
     print("Continuing worker...")

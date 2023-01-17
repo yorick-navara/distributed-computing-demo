@@ -1,17 +1,23 @@
 v serialize/deserialize message
-. Setup mysql in container: https://hevodata.com/learn/docker-mysql/
-. Add process table to mysql: https://eloquentcode.com/create-a-mysql-docker-container-with-a-predefined-database
-- Create common DAL
+v Setup mysql in container: https://hevodata.com/learn/docker-mysql/
+v Add process table to mysql: https://eloquentcode.com/create-a-mysql-docker-container-with-a-predefined-database
+v Create common DAL
     - https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
-- Read and write to SQL process table
-    - master: insert tasks with status NOT_STARTED
-    - worker: update tasks with status STARTED/FINISHED/ERROR
+. Read and write to SQL process table
+    v master: insert tasks with status NOT_STARTED
+    . worker: update tasks with status STARTED/FINISHED/ERROR
 - Insert worker id in table:
     - To get hostname from worker:
         - hostname = subprocess.check_output(['bash','-c', `echo $NAME`]) 
-- Insert start and end datetime of task
+- Insert create, start and end datetime of task
+- Insert description of task (selections)
+- Error handling: what happens with failed messages?
 
 
+- Message acknowledgements:
+  - https://www.rabbitmq.com/confirms.html
+- Make presentation:
+  - https://marp.app/
 
 
 # Examples of connecting with DB: 

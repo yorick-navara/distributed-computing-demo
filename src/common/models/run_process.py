@@ -26,7 +26,7 @@ class RunProcess:
         return {
             'run_id': str(self.run_id),
             'task_id': str(self.task_id),
-            'task_status': str(self.task_status)
+            'task_status': self.task_status.value
         }
         # msg_dict = asdict(
         #     self,
