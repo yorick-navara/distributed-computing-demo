@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import List
 import json
 
+
 DATETIME_FORMAT = "%Y-%m-%d %H:%M"
 
 
@@ -11,7 +12,7 @@ DATETIME_FORMAT = "%Y-%m-%d %H:%M"
 class Message:
     run_id: UUID
     task_id: UUID
-    selections: List[int]
+    selection: List[int]
     start_date: datetime
     end_date: datetime
 
@@ -36,7 +37,7 @@ class Message:
         return Message(
             run_id=UUID(msg_dict['run_id']),
             task_id=UUID(msg_dict['task_id']),
-            selections=msg_dict['selections'],
+            selection=msg_dict['selection'],
             start_date=datetime.strptime(msg_dict['start_date'], DATETIME_FORMAT),
             end_date=datetime.strptime(msg_dict['end_date'], DATETIME_FORMAT)
         )

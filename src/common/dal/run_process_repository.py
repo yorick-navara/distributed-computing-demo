@@ -21,7 +21,7 @@ class RunProcessRepository:
   def update_run_process(run_process: RunProcess) -> None:
     update_query = (
       "UPDATE run_process "
-      "SET task_status = %(task_status)s "
+      "SET task_status = %(task_status)s, worker_id = %(worker_id)s "
       "WHERE run_id = %(run_id)s AND task_id = %(task_id)s"
     )
     
@@ -36,4 +36,3 @@ class RunProcessRepository:
     )
     
     return get_data(query, (str(run_id), str(task_id)))
-  

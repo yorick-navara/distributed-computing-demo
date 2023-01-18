@@ -16,7 +16,7 @@ CONNECTION = 'demo-queue' #'amqp://guest:guest@demo-queue:5672/'  # 'localhost'
 
 
 def do_work(message: Message):
-    for selection in message.selections:
+    for selection in message.selection:
         print("Worker: Starting calculation of selection {selection}...")
         print("Worker: Retrieving data for selection {selection} from database...")
         time.sleep(1)
@@ -30,22 +30,23 @@ def do_work(message: Message):
 
 
 def handle_incoming_message(ch, method, properties, body:str):
-    #print(" [x] Received %r" % body)
-    print("Worker: Received message: {body}")
-    # deserialize message:
+    print(f"Worker: Received message: {body}")
+
     message = Message.from_json(body)
     
     print('Received message:')
     print(f'run_id: {message.run_id}')
     print(f'task_id: {message.task_id}')
-    print(f'selections: {message.selections}')
+    print(f'selections: {message.selection}')
     print(f'start_date {message.start_date}')
     print(f'end_date {message.end_date}')
 
     run_process = RunProcess(
         run_id=message.run_id,
         task_id=message.task_id,
-        task_status=ProcessStatus.STARTED)
+        task_status=ProcessStatus.STARTED
+        worker_id=os.environ['HOSTNAME']
+    )
 
     RunProcessRepository.update_run_process(run_process)
 
@@ -75,7 +76,7 @@ def receive_messages():
 
 def main():
     print("Starting worker...")
-    print(f"Worker name: {os.environ['HOSTNAME']}")
+    
     print("Waiting...")
     time.sleep(30)
     print("Continuing worker...")

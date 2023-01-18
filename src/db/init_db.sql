@@ -12,7 +12,7 @@ CREATE TABLE run_process (
   id int(10) NOT NULL AUTO_INCREMENT,
   run_id varchar(36) NOT NULL,
   task_id varchar(36) NOT NULL,
-  -- task_definition varchar(32) NOT NULL,
-  task_status varchar(32) NOT NULL DEFAULT '', -- values: 'started', 'completed', 'failed'
+  task_status varchar(16) NOT NULL DEFAULT '', -- values: 'created', 'started', 'completed', 'failed'
+  worker_id varchar(16),
   PRIMARY KEY (id) -- TODO: set run_id and task_id as key
 );

@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class ProcessStatus(str,Enum):
-    NOT_STARTED = 'NOT STARTED'
+    CREATED = 'CREATED'
     STARTED = 'STARTED'
     FINISHED = 'FINISHED'
     ERROR = 'ERROR'

@@ -41,14 +41,14 @@ def main():
         run_process = RunProcess(
             run_id=run_id,
             task_id=task_id,
-            task_status=ProcessStatus.NOT_STARTED
+            task_status=ProcessStatus.CREATED
         )
         RunProcessRepository.insert_run_process(run_process)
         
         msg = Message(
             run_id=run_id,
             task_id=task_id,
-            selections=selection,
+            selection=selection,
             start_date=start_date,
             end_date=end_date)
         send_message(msg)
