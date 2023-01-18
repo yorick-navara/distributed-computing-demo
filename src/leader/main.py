@@ -17,13 +17,13 @@ def do_work():
     time.sleep(2)
     print("Exporting result of preliminary work to database...")
     print("Retrieving selections of work from database...")
-    return [[0],[1],[2,3],[4]]
+    return [[0],[1],[2,3],[4],[5],[6],[7],[8,9,10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25,26],[27],[28],[29],[30]]
 
 
 def main():
     print("Starting leader...")
     print("Waiting...")
-    time.sleep(30)
+    time.sleep(60)
     print("Continuing leader...")
     
     print("Started leader.")
@@ -52,8 +52,6 @@ def main():
             start_date=start_date,
             end_date=end_date)
         send_message(msg)
-        
-        time.sleep(1)
 
     print("Leader finished.")
 

@@ -19,12 +19,12 @@ def do_work(message: Message):
     for selection in message.selection:
         print("Worker: Starting calculation of selection {selection}...")
         print("Worker: Retrieving data for selection {selection} from database...")
-        time.sleep(1)
+        time.sleep(5)
         print("Worker: Retrieving loads for selection {selection}...")
-        time.sleep(1)
+        time.sleep(10)
         print("Worker: Performing calculation for selection {selection}...")
         print("Worker: Post processing results...")
-        time.sleep(1)
+        time.sleep(10)
         print("Worker: Exporting results to database...")
     print("Worker: Work finished.")
 
@@ -44,7 +44,7 @@ def handle_incoming_message(ch, method, properties, body:str):
     run_process = RunProcess(
         run_id=message.run_id,
         task_id=message.task_id,
-        task_status=ProcessStatus.STARTED
+        task_status=ProcessStatus.STARTED,
         worker_id=os.environ['HOSTNAME']
     )
 
@@ -67,7 +67,7 @@ def receive_messages():
     
     channel.queue_declare(queue=QUEUE_NAME, durable=True) # idempotent
     
-    #channel.basic_qos(prefetch_count=1)
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=QUEUE_NAME, on_message_callback=handle_incoming_message)
     
     print(' [*] Waiting for messages. To exit press CTRL+C')

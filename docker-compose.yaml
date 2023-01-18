@@ -13,16 +13,13 @@ services:
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
   demo-worker:
-    container_name: demo-worker
     build: 
       context: ./src
       dockerfile: worker/Dockerfile
-    depends_on:
-      - demo-queue
     environment:
      - PYTHONUNBUFFERED=1  # for logging to show
-    # deploy:
-    #   replicas: 1
+    deploy:
+      replicas: 3
   demo-db:
     container_name: demo-db
     build: 

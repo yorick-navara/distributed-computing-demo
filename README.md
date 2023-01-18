@@ -31,7 +31,7 @@ Or continue in the command line with rabbitmqctl:
 rabbitmqctl list_queues
 ```
 
-Then connect to the DB with:
+You can connect to the DB with:
 
 ```
 docker exec -t -i demo-db sh
